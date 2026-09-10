@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+
+# course material, not part of the project
+ICT305-Assessment-2-S2-2026-v1.1.docx
