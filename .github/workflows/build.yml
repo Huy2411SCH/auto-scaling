@@ -35,4 +35,4 @@ jobs:
           aws-region: ap-southeast-2
 
       - name: Upload to S3
-        run: aws s3 cp build.zip s3://ict305-skyhunterxi-builds/build.zip
+        run: aws s3 cp build.zip s3://ict305-huyle2411-builds/build.zip
