@@ -1,0 +1,38 @@
+name: Build and Publish Artifact
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm install
+          npm run build
+
+      - name: Package artifact
+        run: |
+          mkdir -p artifact/frontend artifact/server
+          cp -r frontend/dist artifact/frontend/dist
+          cp server/server.js server/package.json artifact/server/
+          cd artifact && zip -r ../build.zip . && cd ..
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp build.zip s3://ict305-skyhunterxi-builds/build.zip
