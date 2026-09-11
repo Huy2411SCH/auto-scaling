@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const os = require('os');
 const app = express();
 app.use(express.json());
 
@@ -31,7 +32,7 @@ function requireAuth(req, res, next) {
 app.get('/api/dashboard', requireAuth, (req, res) => {
   let total = 0;
   for (let i = 0; i < 5_000_000; i++) total += Math.sqrt(i);
-  res.json({ user: req.user.username, computedStat: total, instance: process.env.HOSTNAME });
+  res.json({ user: req.user.username, computedStat: total, instance: os.hostname() });
 });
 
 app.get('/health', (req, res) => res.status(200).send('OK'));
