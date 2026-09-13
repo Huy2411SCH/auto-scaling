@@ -21,7 +21,6 @@ export default function Login({ onLogin }) {
         setError(data.error || 'Login failed')
         return
       }
-      // token + username combined into one object, matching what App.jsx expects
       onLogin({ token: data.token, username: data.user.username })
     } catch (err) {
       setError('Could not reach the server')
